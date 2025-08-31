@@ -1,23 +1,33 @@
 # MayuBot
 
-A collaborative turn-based counting discord bot game
+A collaborative turn-based counting discord bot. 
+
+## Screenshot
+
+![Alt text](assets/Screenshot_20250831_222647.png)
 
 ## Tech Stack:
 
-Implememtation language: java
-Discord Framework: jda
+- Implememtation language: java
+- Discord Framework: jda
 
-## Features:
+## Implemented Features:
   
-Ability to parse arbitary expressions composing of operators, floats and integers.
+- Ability to parse arbitary expressions composing of operators, floats and integers.
+- Prints a success message when continuing the count.
+- Prints an error message when miscounted.
 
 ## ToDo:
 
-Massive refactoring is required for the parser
+### Current Codebase:
 
-Parsing and evaluating Function Call: `factorial, sum, floor, ceiling`
-Query longest counting streak
-Success message modification
-Error message modification
-Mode Switching
-Challenge Mode
+- Massive refactoring is required for the parser
+
+### Features:
+
+- Parsing and evaluating Function Call: `factorial, sum, floor, ceiling`
+- Query longest counting streak
+- Success message modification
+- Error message modification
+- Mode Switching (Standard Counting, Even Counting, Fibonacci Counting)
+- Challenge Mode
