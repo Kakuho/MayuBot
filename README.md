@@ -1,4 +1,4 @@
-# Mayubot
+# MayuBot
 
 A collaborative turn-based counting discord bot game
 
