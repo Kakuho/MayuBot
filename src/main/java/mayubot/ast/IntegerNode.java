@@ -11,8 +11,10 @@ public class IntegerNode implements AbstractNode{
 
   public long GetVal(){ return val;}
 
+  @Override
   public NodeType GetType(){ return NodeType.IntegerNode;}
 
+  @Override
   public EvaluationResult GetResult(){
     return new EvaluationResult(val);
   }

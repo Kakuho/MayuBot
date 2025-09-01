@@ -11,8 +11,10 @@ public class FloatingNode implements AbstractNode{
 
   public double GetVal(){ return val;}
 
+  @Override
   public NodeType GetType(){ return NodeType.IntegerNode;}
 
+  @Override
   public EvaluationResult GetResult(){
     return new EvaluationResult(val);
   }
