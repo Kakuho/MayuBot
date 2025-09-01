@@ -7,6 +7,7 @@ import mayubot.ast.EvaluationResult;
 import java.lang.Math;
 
 public class OpNode implements AbstractNode{
+  // lhs and rhs maybe function call nodes
   private Operator op;
   private AbstractNode lhs;
   private AbstractNode rhs;
@@ -18,6 +19,7 @@ public class OpNode implements AbstractNode{
     this.rhs = rhs;
   }
 
+  @Override
   public AbstractNode.NodeType GetType(){
     return nodeType;
   }
@@ -100,26 +102,10 @@ public class OpNode implements AbstractNode{
     }
   }
 
-  public EvaluationResult Evaluate(){
-    EvaluationResult lhsval, rhsval;
-    if(lhs instanceof OpNode){
-      var lhsOp = (OpNode)lhs;
-      lhsval = lhsOp.Evaluate();
-    }
-    else{
-      lhsval = lhs.GetResult();
-    }
-    if(rhs instanceof OpNode){
-      var rhsOp = (OpNode)rhs;
-      rhsval = rhsOp.Evaluate();
-    }
-    else{
-      rhsval = rhs.GetResult();
-    }
-    return Calcuate(lhsval, rhsval);
-  }
-
+  @Override
   public EvaluationResult GetResult(){
-    return Evaluate();
+    EvaluationResult lhsval = lhs.GetResult();
+    EvaluationResult rhsval = rhs.GetResult();
+    return Calcuate(lhsval, rhsval);
   }
 }
