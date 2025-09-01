@@ -1,1 +1,11 @@
+target/
 .classpath
+.settings/
+.project
+
+clean_test_run.sh
+run.sh
+
+notes
+task.txt
+*.swp
