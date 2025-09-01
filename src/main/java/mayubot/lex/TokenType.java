@@ -10,5 +10,6 @@ public enum TokenType{
   RightBracket,
   Integral,
   Floating,
+  Identifier,
   Eof
 }
