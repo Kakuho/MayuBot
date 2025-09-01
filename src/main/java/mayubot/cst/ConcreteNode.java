@@ -33,6 +33,7 @@ class IntegralNode implements ConcreteNode{
     return new ArrayList<ConcreteNode>();
   }
 
+  @Override
   public AbstractNode GetAst(){
     return new mayubot.ast.IntegerNode(val);
   }
@@ -55,6 +56,7 @@ class FloatingNode implements ConcreteNode{
     return new ArrayList<ConcreteNode>();
   }
 
+  @Override
   public AbstractNode GetAst(){
     return new mayubot.ast.FloatingNode(val);
   }
@@ -85,6 +87,7 @@ class BNode implements ConcreteNode{
     return List.of(child);  // how does type resolution work here in java?
   }
 
+  @Override
   public AbstractNode GetAst(){
     if(childtype == ChildType.ENode){
       return null;
@@ -134,6 +137,7 @@ class FNode implements ConcreteNode{
     }
   }
 
+  @Override
   public AbstractNode GetAst(){
     if(childtype == ChildType.Power){
       return new OpNode(Operator.Pow, first.GetAst(), second.get().GetAst());
@@ -193,6 +197,7 @@ class TNode implements ConcreteNode{
     }
   }
 
+  @Override
   public AbstractNode GetAst(){
     if(childtype == ChildType.Fnode){
       return first.GetAst();
@@ -205,6 +210,7 @@ class TNode implements ConcreteNode{
     }
   }
 }
+
 
 class ENode implements ConcreteNode{
   public enum ChildType{Op, Tnode};
@@ -252,6 +258,7 @@ class ENode implements ConcreteNode{
     }
   }
 
+  @Override
   public AbstractNode GetAst(){
     if(childtype == ChildType.Tnode){
       return first.GetAst();
@@ -262,5 +269,59 @@ class ENode implements ConcreteNode{
     else{
       return new OpNode(Operator.Sub, first.GetAst(), second.get().GetAst());
     }
+  }
+}
+
+class FunctionNameNode implements ConcreteNode{
+  private final String name;
+
+  public FunctionNameNode(String name){
+    this.name = name;
+  }
+
+  public String GetName(){
+    return this.name;
+  }
+
+  @Override
+  public String GetString(){
+    return String.format("FunctionName: %s", name);
+  }
+
+  @Override
+  public List<ConcreteNode> GetChildren(){
+    return List.of();
+  }
+
+  @Override
+  public AbstractNode GetAst(){
+    // probably should remove this...
+    // maybe able to skip the parsing of the FunctionNameNode
+    return null;
+  }
+}
+
+class FunctionCall implements ConcreteNode{
+  private final FunctionNameNode nameNode;
+  private final ConcreteNode expr;
+
+  public FunctionCall(FunctionNameNode nameNode, ENode expr){
+    this.nameNode = nameNode;
+    this.expr = expr;
+  }
+
+  @Override
+  public String GetString(){
+    return "Function";
+  }
+
+  @Override
+  public List<ConcreteNode> GetChildren(){
+    return List.of(nameNode, expr);
+  }
+
+  @Override
+  public AbstractNode GetAst(){
+    return new mayubot.ast.FunctionCallNode(nameNode.GetName(), expr.GetAst());
   }
 }

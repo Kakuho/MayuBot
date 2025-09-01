@@ -37,6 +37,18 @@ public class Parser{
     return tokens.get(index);
   }
 
+  public ConcreteNode ParseFunctionName(){
+    var current = CurrentToken();
+    if(current.GetType() != TokenType.Identifier){
+      throw new RuntimeException("Parser.ParseFunctionName(): " +
+          "current token is not an identifier");
+    }
+    else{
+      index++;
+      return new FunctionNameNode(current.GetIdentifier());
+    }
+  }
+
   public ConcreteNode ParseIntegralNode(){
     var current = CurrentToken();
     if(current.GetType() != TokenType.Integral){
@@ -46,6 +58,7 @@ public class Parser{
       index++;
       return new IntegralNode(current.GetIntegral());
     }
+
   }
 
   public ConcreteNode ParseFloatingNode(){
