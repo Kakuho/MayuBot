@@ -37,6 +37,16 @@ public class Parser{
     return tokens.get(index);
   }
 
+  private boolean MatchTokenType(TokenType type){
+    if(CurrentToken().GetType() != type){
+      return false;
+    }
+    else{
+      index++;
+      return true;
+    }
+  }
+
   public ConcreteNode ParseFunctionName(){
     var current = CurrentToken();
     if(current.GetType() != TokenType.Identifier){
@@ -47,6 +57,28 @@ public class Parser{
       index++;
       return new FunctionNameNode(current.GetIdentifier());
     }
+  }
+
+  public ConcreteNode ParseFunctionCall(){
+    var nameNode = ParseFunctionName();
+    if(nameNode == null){
+      throw new RuntimeException("Parser.ParseFunctionCall(): " +
+          "trying to parse function name returns null");
+    }
+    if(!MatchTokenType(TokenType.LeftBracket)){
+      throw new RuntimeException("Parser.ParseFunctionCall(): " +
+          "trying to parse left bracket fail");
+    }
+    var expressionNode = ParseE();
+    if(expressionNode == null){
+      throw new RuntimeException("Parser.ParseFunctionCall(): " +
+          "trying to parse expression node fail");
+    }
+    if(!MatchTokenType(TokenType.RightBracket)){
+      throw new RuntimeException("Parser.ParseFunctionCall(): " +
+          "trying to parse right bracket fail");
+    }
+    return new FunctionCallNode((FunctionNameNode)nameNode, (ENode)expressionNode);
   }
 
   public ConcreteNode ParseIntegralNode(){

@@ -301,11 +301,11 @@ class FunctionNameNode implements ConcreteNode{
   }
 }
 
-class FunctionCall implements ConcreteNode{
+class FunctionCallNode implements ConcreteNode{
   private final FunctionNameNode nameNode;
   private final ConcreteNode expr;
 
-  public FunctionCall(FunctionNameNode nameNode, ENode expr){
+  public FunctionCallNode(FunctionNameNode nameNode, ENode expr){
     this.nameNode = nameNode;
     this.expr = expr;
   }
