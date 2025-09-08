@@ -105,11 +105,20 @@ class LexingTests{
     assertTrue(tokens.get(2).GetIntegral() == 4);
   }
 
-
   @Test
   public void FailingMessage(){
     String input = "im gonna fail!";
     var lexer = new Lexer(input);
+  }
+
+  @Test
+  public void LiteralsIdentifier(){
+    String input = "ceiling";
+    var lexer = new Lexer(input);
+    List<Token> tokens = lexer.Process();
+    assertTrue(tokens.size() == 2);
+    assertTrue(tokens.get(0).GetType() == TokenType.Identifier);
+    assertTrue(tokens.get(0).GetIdentifier() == "ceiling");
   }
 
 }
