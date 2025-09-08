@@ -63,7 +63,7 @@ class FloatingNode implements ConcreteNode{
 }
 
 class BNode implements ConcreteNode{
-  public enum ChildType{Integral, Floating, ENode};
+  public enum ChildType{Integral, Floating, FunctionCall, ENode};
   private ChildType childtype;
   private ConcreteNode child;
 
@@ -75,6 +75,11 @@ class BNode implements ConcreteNode{
   public BNode(FloatingNode node){
     this.child = node;
     this.childtype = ChildType.Floating;
+  }
+
+  public BNode(FunctionCallNode node){
+    this.child = node;
+    this.childtype = ChildType.FunctionCall;
   }
 
   @Override

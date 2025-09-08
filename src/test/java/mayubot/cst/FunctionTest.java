@@ -1,5 +1,6 @@
 package mayubot.cst;
 
+import mayubot.DebugPrinter;
 import mayubot.lex.Token;
 import mayubot.lex.TokenType;
 
@@ -32,5 +33,34 @@ public final class FunctionTest{
 
     var eNode = functionCall.GetChildren().get(1);
     assertTrue(eNode instanceof ENode);
+  }
+
+  @Test
+  public void ParseComplexCeiling(){
+    //    ceiling
+    //      2.3
+    //  + 
+    //    10
+    DebugPrinter.Print("Starting new test");
+    ArrayList<Token> tokens = new ArrayList<Token>(
+        List.of(
+          // 10
+          new Token(10),
+          // +
+          new Token(TokenType.Plus),
+          // ceiling(2.3 + 607)
+          new Token("ceiling"),
+          new Token(TokenType.LeftBracket),
+          new Token(2.3),
+          new Token(TokenType.Plus),
+          new Token(607),
+          new Token(TokenType.RightBracket),
+          new Token(TokenType.Eof)
+        )
+    );
+    var parser = new Parser(tokens);
+    var root = parser.Parse();
+    assertTrue(root instanceof ENode);
+    assertTrue(root.GetChildren().size() == 2);
   }
 }

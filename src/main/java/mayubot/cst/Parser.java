@@ -1,5 +1,6 @@
 package mayubot.cst;
 
+import mayubot.DebugPrinter;
 import mayubot.lex.Token;
 import mayubot.lex.TokenType;
 
@@ -88,9 +89,9 @@ public class Parser{
     }
     else{
       index++;
+      //DebugPrinter.Print(String.format("Sucessfully parse integral node, index = %d", index));
       return new IntegralNode(current.GetIntegral());
     }
-
   }
 
   public ConcreteNode ParseFloatingNode(){
@@ -111,7 +112,8 @@ public class Parser{
         return new BNode((IntegralNode)ParseIntegralNode());
       case Floating:
         return new BNode((FloatingNode)ParseFloatingNode());
-      /* case LeftBracket: */
+      case Identifier:
+        return new BNode((FunctionCallNode)ParseFunctionCall());
       default: 
         throw new RuntimeException("Parser.ParseB(): current token is neither integral or floating");
     }
@@ -157,10 +159,12 @@ public class Parser{
   }
 
   public ConcreteNode ParseE(){
+    //DebugPrinter.Print("Inside ParseE");
     var tnode = ParseT();
     if(tnode == null){
       throw new RuntimeException("Parser.ParseE(): Failed to parse first T node");
     }
+    //DebugPrinter.Print("valid T node constructed");
     var lookahead = CurrentToken();
     if(lookahead.GetType() == TokenType.Plus || lookahead.GetType() == TokenType.Minus){
       var operator = lookahead.GetType();
