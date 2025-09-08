@@ -121,4 +121,55 @@ class LexingTests{
     assertTrue(tokens.get(0).GetIdentifier() == "ceiling");
   }
 
+  @Test
+  public void LiteralsMultipleIdentifier(){
+    String input = "ceiling factorial kurumi";
+    var lexer = new Lexer(input);
+    List<Token> tokens = lexer.Process();
+    assertTrue(tokens.size() == 4);
+    assertTrue(tokens.get(0).GetType() == TokenType.Identifier);
+    assertTrue(tokens.get(1).GetType() == TokenType.Identifier);
+    assertTrue(tokens.get(2).GetType() == TokenType.Identifier);
+    assertTrue(tokens.get(3).GetType() == TokenType.Eof);
+  }
+
+  @Test
+  public void LiteralsArithmeticIdentifier(){
+    String input = "ceiling 10 kurumi 2.5";
+    var lexer = new Lexer(input);
+    List<Token> tokens = lexer.Process();
+    assertTrue(tokens.size() == 5);
+    assertTrue(tokens.get(0).GetType() == TokenType.Identifier);
+    assertTrue(tokens.get(1).GetType() == TokenType.Integral);
+    assertTrue(tokens.get(2).GetType() == TokenType.Identifier);
+    assertTrue(tokens.get(3).GetType() == TokenType.Floating);
+    assertTrue(tokens.get(4).GetType() == TokenType.Eof);
+  }
+
+  @Test
+  public void LiteralsBrackets(){
+    String input = "(())";
+    var lexer = new Lexer(input);
+    List<Token> tokens = lexer.Process();
+    assertTrue(tokens.size() == 5);
+    assertTrue(tokens.get(0).GetType() == TokenType.LeftBracket);
+    assertTrue(tokens.get(1).GetType() == TokenType.LeftBracket);
+    assertTrue(tokens.get(2).GetType() == TokenType.RightBracket);
+    assertTrue(tokens.get(3).GetType() == TokenType.RightBracket);
+    assertTrue(tokens.get(4).GetType() == TokenType.Eof);
+  }
+
+  @Test
+  public void FunctionCall(){
+    String input = "factorial(10)";
+    var lexer = new Lexer(input);
+    List<Token> tokens = lexer.Process();
+    assertTrue(tokens.size() == 5);
+    assertTrue(tokens.get(0).GetType() == TokenType.Identifier);
+    assertTrue(tokens.get(1).GetType() == TokenType.LeftBracket);
+    assertTrue(tokens.get(2).GetType() == TokenType.Integral);
+    assertTrue(tokens.get(3).GetType() == TokenType.RightBracket);
+    assertTrue(tokens.get(4).GetType() == TokenType.Eof);
+  }
+
 }

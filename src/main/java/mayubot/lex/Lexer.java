@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Optional;
 
+import mayubot.DebugPrinter;
+
 public class Lexer{
   private class Span{
     // digit inclusive
@@ -63,6 +65,15 @@ public class Lexer{
         var token = ProcessOperator(currentCh);
         tokens.add(token.get());
       }
+      else if(IsBracket(currentCh)){
+        if(currentCh == '('){
+          tokens.add(new Token(TokenType.LeftBracket));
+        }
+        else{
+          tokens.add(new Token(TokenType.RightBracket));
+        }
+        currentIndex++;
+      }
       else{
         var token = ProcessIdentifier(currentIndex);
         if(token.isPresent()){
@@ -109,10 +120,13 @@ public class Lexer{
   }
 
   public Optional<Token> ProcessIdentifier(int startIndex){
+    //DebugPrinter.Print("Inside ProcessIdentifier(int)");
     var currentSpan = IdentSpanAt(startIndex);
-    if(currentSpan.end == input.length() -1){
-      return Optional.of(new Token(input.charAt(startIndex)));
-    }
+    /*
+    DebugPrinter.Print(
+      String.format("span start: %d, span end: %d", currentSpan.start, currentSpan.end)
+    );
+    */
     if(currentSpan.start == currentSpan.end){
       char rep = input.charAt(currentSpan.start);
       UpdateIndexBy(currentSpan);
@@ -218,7 +232,7 @@ public class Lexer{
       if(index + 1 == input.length()){
         break;
       }
-      else if(IsWhitespace(input.charAt(index+1))){
+      else if(IsWhitespace(input.charAt(index+1)) || IsBracket(input.charAt(index+1))){
         break;
       }
       else{
@@ -243,6 +257,16 @@ public class Lexer{
         return false;
     }
   }
+
+  public boolean IsBracket(char ch){
+    switch(ch){
+      case '(': case ')':
+        return true;
+      default:
+        return false;
+    }
+  }
+
 
   public boolean IsWhitespace(char ch){
     switch(ch){
