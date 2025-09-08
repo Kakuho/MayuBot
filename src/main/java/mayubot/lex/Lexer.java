@@ -5,21 +5,6 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 public class Lexer{
-  private class DigitSpan{
-    // digit inclusive
-    int start;
-    int end;
-
-    public int Length(){
-      return end - start;
-    }
-
-    public DigitSpan(int start, int end){
-      this.start = start;
-      this.end = end;
-    }
-  }
-
   private class Span{
     // digit inclusive
     int start;
@@ -74,13 +59,17 @@ public class Lexer{
       else if(IsWhitespace(currentCh)){
         SkipWhitespace();
       }
+      else if(IsOperator(currentCh)){
+        var token = ProcessOperator(currentCh);
+        tokens.add(token.get());
+      }
       else{
-        var token = ProcessNonDigit(currentCh);
+        var token = ProcessIdentifier(currentIndex);
         if(token.isPresent()){
           tokens.add(token.get());
         }
         else{
-          throw new RuntimeException("Lexer.Process(): Unknown non digit");
+          throw new RuntimeException("Lexer.Process(): Digit branch failed to lex");
         }
       }
     }
@@ -88,8 +77,16 @@ public class Lexer{
     return tokens;
   }
 
+  public boolean IsOperator(char ch){
+    switch(ch){
+      case '+': case '-': case '/': case '*': case '^': 
+        return true;
+      default:
+        return false;
+    }
+  }
 
-  public Optional<Token> ProcessNonDigit(char ch){
+  public Optional<Token> ProcessOperator(char ch){
     switch(ch){
       case '+': 
         currentIndex++;
@@ -108,6 +105,23 @@ public class Lexer{
         return Optional.of(new Token(TokenType.Raise));
       default:
         return Optional.empty();
+    }
+  }
+
+  public Optional<Token> ProcessIdentifier(int startIndex){
+    var currentSpan = IdentSpanAt(startIndex);
+    if(currentSpan.end == input.length() -1){
+      return Optional.of(new Token(input.charAt(startIndex)));
+    }
+    if(currentSpan.start == currentSpan.end){
+      char rep = input.charAt(currentSpan.start);
+      UpdateIndexBy(currentSpan);
+      return Optional.of(new Token(rep));
+    }
+    else{
+      String rep = input.substring(currentSpan.start, currentSpan.end+1);
+      UpdateIndexBy(currentSpan);
+      return Optional.of(new Token(rep));
     }
   }
 
@@ -136,9 +150,6 @@ public class Lexer{
     int nonwhiteindex = currentIndex;
     char ch = input.charAt(nonwhiteindex);
     while(IsWhitespace(ch) && (nonwhiteindex < input.length() - 1)){
-      /*
-
-      */
       nonwhiteindex++;
       if(nonwhiteindex + 1 < input.length()){
         ch = input.charAt(nonwhiteindex);
@@ -169,7 +180,7 @@ public class Lexer{
     }
   }
 
-  public Optional<Token> ProcessIntegral(DigitSpan span){
+  public Optional<Token> ProcessIntegral(Span span){
     if(span.start == span.end){
       char integralrep = input.charAt(span.start);
       UpdateIndexBy(span);
@@ -180,9 +191,10 @@ public class Lexer{
       UpdateIndexBy(span);
       return Optional.of(new Token(Long.valueOf(integralrep)));
     }
+
   }
 
-  public DigitSpan DigitSpanAt(int start){
+  public Span DigitSpanAt(int start){
     // 012345678
     // 342.3456 
     int index = start;
@@ -197,10 +209,26 @@ public class Lexer{
         index++;
       }
     }
-    return new DigitSpan(start, index);
+    return new Span(start, index);
   }
 
-  public void UpdateIndexBy(DigitSpan span){
+  public Span IdentSpanAt(int start){
+    int index = start;
+    while(!IsWhitespace(input.charAt(index))){
+      if(index + 1 == input.length()){
+        break;
+      }
+      else if(IsWhitespace(input.charAt(index+1))){
+        break;
+      }
+      else{
+        index++;
+      }
+    }
+    return new Span(start, index);
+  }
+
+  public void UpdateIndexBy(Span span){
     currentIndex += span.Length() + 1;
   }
 
