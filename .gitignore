@@ -7,5 +7,6 @@ clean_test_run.sh
 run.sh
 
 notes
+*note.txt
 task.txt
 *.swp
