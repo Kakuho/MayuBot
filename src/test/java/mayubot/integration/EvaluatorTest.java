@@ -21,5 +21,9 @@ class EvaluatorTest{
     result = evaluator.Process("3 * 3");
     assertTrue(result.IsIntegral());
     assertTrue(result.GetInt() == 9);
+
+    result = evaluator.Process("factorial(3) * 3");
+    assertTrue(result.IsIntegral());
+    assertTrue(result.GetInt() == 18);
   }
 }
