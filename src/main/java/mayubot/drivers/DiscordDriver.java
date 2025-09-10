@@ -13,8 +13,8 @@ public class DiscordDriver extends Driver{
     this.mayuListener.SetDriver(this);
   }
 
-  public DiscordDriver(Mode mode){
-    super(mode);
+  public DiscordDriver(Mode mode, ResetMode resetmode){
+    super(mode, resetmode);
     this.mayuListener = new MayuListener();
     this.mayuListener.SetDriver(this);
   }

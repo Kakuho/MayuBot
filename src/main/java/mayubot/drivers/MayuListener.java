@@ -29,7 +29,7 @@ class MayuListener extends ListenerAdapter{
           channel.sendMessage(String.format("Nyanderful!")).queue(); 
         }
         else{
-          channel.sendMessage(String.format("Maybe I've spun too hard... Resseting count back to 1")).queue(); 
+          channel.sendMessage(String.format("Maybe I've spun too hard... Next count is %d", driver.NextCount())).queue(); 
         }
       }
       catch(RuntimeException e){
