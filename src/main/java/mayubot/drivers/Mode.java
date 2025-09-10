@@ -2,6 +2,6 @@ package mayubot.drivers;
 
 public enum Mode{
   Standard,
-  Fibonnaci,
+  Fibonacci,
   Even
 }

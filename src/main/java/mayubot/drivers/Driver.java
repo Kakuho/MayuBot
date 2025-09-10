@@ -3,14 +3,13 @@ package mayubot.drivers;
 import mayubot.Evaluator;
 
 abstract class Driver{
-  public enum Mode{Standard, Fibonacci, Even}
-
   class DriverState{
-    private Driver.Mode mode;
+    private Mode mode;
     private long currentCount;
     private long priorCount;
 
     public DriverState(Mode mode){
+      this.mode = mode;
       switch(mode){
       case Standard:
       case Fibonacci:
