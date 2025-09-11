@@ -14,6 +14,10 @@ A collaborative turn-based counting discord bot.
 
 ## Implemented Features:
 
+- Systems:
+  - Saves the current count on stopping, and remembers during starting up again
+  - Mode where the bot randomly chooses a number between 1 and the latest saved count, to overcome situations where counts constantly restarts at 1.
+
 - Parsing And Evalutation:
   - Ability to parse arbitary expressions composing of operators, floats and integers.
   - Parsing and evaluating Function Call: `factorial, sum, floor, ceiling`
@@ -28,8 +32,6 @@ A collaborative turn-based counting discord bot.
 
 - Code / Systems
   - Implement a custom timestamping system to solve problems when two users submit a message at the same time
-  - Saves the current count on stopping, and remembers during starting up again
-  - Feature where the bot randomly chooses a number between 1 and the latest saved count
   - Challenge Mode: the bot randomly chooses not to display a success or an error message
 
 - Parsing
