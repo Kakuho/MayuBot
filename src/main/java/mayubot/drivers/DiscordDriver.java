@@ -2,11 +2,16 @@ package mayubot.drivers;
 
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.requests.GatewayIntent;
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 
 import java.util.EnumSet;
 
 public class DiscordDriver extends Driver{
   private MayuListener mayuListener;
+  private JDA jdaSession;
+  private TextChannel mayubotChannel;
+
   public DiscordDriver(){
     super();
     this.mayuListener = new MayuListener();
@@ -43,9 +48,43 @@ public class DiscordDriver extends Driver{
         GatewayIntent.MESSAGE_CONTENT
       );
 
-      JDABuilder.createLight(token, intents)
-                .addEventListeners(this.mayuListener)
-                .build();
+      jdaSession = JDABuilder.createLight(token, intents)
+                  .addEventListeners(this.mayuListener)
+                  .build();
+
+      try{
+        jdaSession.awaitReady();
+      }
+      catch(InterruptedException e){
+        System.out.println("Thread interrupted during jda.awaitReady()");
+        throw new RuntimeException();
+      }
+      catch(IllegalStateException e){
+        System.out.println("illegal state reached during jda.awaitReady()");
+        throw new RuntimeException();
+      }
+
+      SendStartupMessage();
     }
+  }
+
+  private void SendStartupMessage(){
+    // we need to reach jda.connected first...
+    var channelList = jdaSession.getTextChannels();
+    if(channelList.size() == 0){
+      System.out.println("zero text channels?");
+    }
+    for(var channel: channelList){
+      if(channel.getName().equals("mayubot")){
+        mayubotChannel = channel;
+        break;
+      }
+    }
+    if(mayubotChannel == null){
+      throw new RuntimeException("Cannot find channel with name mayubot");
+    }
+    mayubotChannel.sendMessage(
+      String.format("Mayubot online. Next count is: %d", CurrentCount() + 1)
+    ).queue();
   }
 }

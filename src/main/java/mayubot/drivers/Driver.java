@@ -134,6 +134,9 @@ abstract class Driver{
     }
   }
 
+  public long CurrentCount(){
+    return state.GetCurrentCount();
+  }
 
   public long NextCount(){
     return state.GetNextCount();
