@@ -9,5 +9,6 @@ run.sh
 notes
 *note.txt
 task.txt
+tasks.txt
 *.swp
 values.tmp
