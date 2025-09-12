@@ -25,6 +25,13 @@ A collaborative turn-based counting discord bot.
   - Prints an error message when miscounted.
   - Can switch counting modes from standard, even and fibonnaci
 
+- Discord Interactions:
+  - Query longest counting streak
+  - Allow mods to switch the counting mode dynamically
+  - Allows users to display a list of callable functions, with their types required
+  - Help Message: gives a summary of the grammar of the language the bot understands
+  - About Message: a simple about me for the bot
+
 ## ToDo:
 
 - Infrastructure
@@ -43,10 +50,5 @@ A collaborative turn-based counting discord bot.
   - Parsing and evaluating of latex fractions `$\frac{2}{4}$`
 
 - Discord Bot Interactivity:
-  - Query longest counting streak
   - Success message modification
   - Error message modification
-  - Allow mods to switch the counting mode dynamically
-  - Allows users to display a list of callable functions, with their types required
-  - Help Message: gives a summary of the grammar of the language the bot understands
-  - About Message: a simple about me for the bot
