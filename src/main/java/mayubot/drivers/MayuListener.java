@@ -27,15 +27,20 @@ class MayuListener extends ListenerAdapter{
     event.reply(replymessage).queue();
   }
 
-  public void HandleAbout(SlashCommandInteractionEvent event){
-    var aboutMessage = "Discord bot made by Garbage Monkey\n\n"
-      + "The discord bot implements the following grammar:\n"
-      + "```E -> T + E | T - E | T\n"
+  public void HandleHelp(SlashCommandInteractionEvent event){
+    var aboutMessage = "Help for grammar:\n\n"
+      + "```The discord bot implements the following grammar:\n"
+      + "E -> T + E | T - E | T\n"
       + "T -> F / T | F * T | F\n"
       + "F -> B^B | B\n"
       + "B -> ( E ) | int | float | function-call\n"
       + "function-call -> function-name(E) \n"
       + "function-name -> factorial | sum | floor | ceiling```";
+    event.reply(aboutMessage).queue();
+  }
+
+  public void HandleAbout(SlashCommandInteractionEvent event){
+    var aboutMessage = "Discord bot made by Garbage Monkey\nI hope you enjoy it!";
     event.reply(aboutMessage).queue();
   }
 
@@ -51,6 +56,9 @@ class MayuListener extends ListenerAdapter{
     }
     else if(event.getName().equals("longest")){
       HandleLongest(event);
+    }
+    else if(event.getName().equals("help")){
+      HandleHelp(event);
     }
     else if(event.getName().equals("about")){
       HandleAbout(event);
