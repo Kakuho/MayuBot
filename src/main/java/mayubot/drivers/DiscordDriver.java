@@ -59,7 +59,9 @@ public class DiscordDriver extends Driver{
       Commands.slash("longest", "Query the longest counting streak."),
       Commands.slash("help", "Gets information of the grammar the bot implements."),
       Commands.slash("about", "Gets information about the discord bot."),
-      Commands.slash("callable_functions", "Gets a list of callable functions that the bot supports.")
+      Commands.slash("callable_functions", "Gets a list of callable functions that the bot supports."),
+      Commands.slash("count_mode", "Switch the counting mode of the bot.")
+        .addOption(OptionType.STRING, "mode", "The counting mode to switch to.")
     ).queue();
   }
 

@@ -20,6 +20,7 @@ class MayuListener extends ListenerAdapter{
     var content = event.getOption("message").getAsString();
     var replymessage = String.format("Mayubot Echo: %s", content);
     event.reply(replymessage).queue();
+
   }
 
   public void HandleLongest(SlashCommandInteractionEvent event){
@@ -49,6 +50,21 @@ class MayuListener extends ListenerAdapter{
     event.reply(aboutMessage).queue();
   }
 
+  public void HandleCountMode(SlashCommandInteractionEvent event){
+    var mode = event.getOption("mode").getAsString();
+    if(mode.toLowerCase().equals("even")){
+      driver.SetCountingMode(Mode.Even);
+    }
+    else if(mode.toLowerCase().equals("standard")){
+      driver.SetCountingMode(Mode.Standard);
+    }
+    else{
+      event.reply("sorry that mode is unrecognised!").queue();
+    }
+    var message = String.format("Mayubot's Coutning Mode has been set to: %s! Next count is %d", mode.toLowerCase(), driver.NextCount());
+    event.reply(message).queue();
+  }
+
   @Override
   public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
     if(event.getName().equals("echo")){
@@ -65,6 +81,9 @@ class MayuListener extends ListenerAdapter{
     }
     else if(event.getName().equals("callable_functions")){
       HandleCallableFunction(event);
+    }
+    else if(event.getName().equals("count_mode")){
+      HandleCountMode(event);
     }
   }
 

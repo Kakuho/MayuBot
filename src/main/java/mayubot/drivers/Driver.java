@@ -146,6 +146,10 @@ abstract class Driver{
     return state.GetLongestCount();
   }
 
+  public void SetCountingMode(Mode mode){
+    state.SetMode(mode);
+  }
+
   private void ReadLastValueFile(){
     //  the structure of values.tmp is 
     //    current_count
