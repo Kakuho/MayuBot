@@ -56,7 +56,10 @@ public class DiscordDriver extends Driver{
         .addOption(OptionType.INTEGER, "times", "The number of times to repeat the message.")
         .addOption(OptionType.BOOLEAN, "ephemeral", "Whether or not the message should be sent as an ephemeral message."),
 
-      Commands.slash("longest", "Query the longest counting streak.")
+      Commands.slash("longest", "Query the longest counting streak."),
+      Commands.slash("help", "Gets a help message for the discord bot."),
+      Commands.slash("about", "Gets an about message for the discord bot."),
+      Commands.slash("callable_functions", "Gets a list of callable functions that the bot supports.")
     ).queue();
   }
 
