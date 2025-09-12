@@ -1,9 +1,8 @@
 package mayubot.drivers;
 
-
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
 class MayuListener extends ListenerAdapter{
   private DiscordDriver driver;
@@ -13,6 +12,29 @@ class MayuListener extends ListenerAdapter{
 
   public void SetDriver(DiscordDriver driver){
     this.driver = driver;
+  } 
+
+  // Slash command Handlers... maybe best to be extracted out as static methods
+
+  public void HandleEcho(SlashCommandInteractionEvent event){
+    var content = event.getOption("message").getAsString();
+    var replymessage = String.format("Mayubot Echo: %s", content);
+    event.reply(replymessage).queue();
+  }
+
+  public void HandleLongest(SlashCommandInteractionEvent event){
+    var replymessage = String.format("Longest Count: %d", driver.LongestCount());
+    event.reply(replymessage).queue();
+  }
+
+  @Override
+  public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
+    if(event.getName().equals("echo")){
+      HandleEcho(event);
+    }
+    else if(event.getName().equals("longest")){
+      HandleLongest(event);
+    }
   }
 
   @Override

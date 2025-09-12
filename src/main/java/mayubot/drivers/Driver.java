@@ -142,6 +142,10 @@ abstract class Driver{
     return state.GetNextCount();
   }
 
+  public long LongestCount(){
+    return state.GetLongestCount();
+  }
+
   private void ReadLastValueFile(){
     //  the structure of values.tmp is 
     //    current_count
@@ -230,6 +234,7 @@ abstract class Driver{
     if(num == state.GetCurrentCount() + 1){
       state.SetCurrentCount(state.GetCurrentCount() + 1);
       state.SetPriorCount(state.GetCurrentCount() - 1);
+      CheckLongestCount();
       return true;
     }
     else{
